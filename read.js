@@ -7,14 +7,9 @@ var filePath=path.join(__dirname,'India2011.csv');
 		function(err){ console.log(err);
 
 	});
-	
-// myReadStream.on('data', function(chunk) {
 
-//     console.log("new chunk received");
-//     console.log(chunk);
-//     // var result=toJson(chunk);
-//     // console.log(JSON.stringify(result));
     myReadStream = myReadStream.split("\n");
+
 
     var result = [];
 
@@ -25,13 +20,28 @@ var filePath=path.join(__dirname,'India2011.csv');
         var obj = {};
         var currentline = myReadStream[i].split(",");
 
+
         for (var j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j];
+            //obj[headers[j]] = currentline[j];
+            obj.state=currentline[3];
+            obj.age=currentline[5];
+        	obj.litterate=currentline[12];
         }
+        // obj.age=myReadStream[5];
+        // console.log()
 
         result.push(obj);
 
     }
 
+    var sum=result.reduce((c,ele)=>{
+
+    		if(ele.age==7)
+    			c=c+parseInt(ele.litterate);
+    		return c;
+    },0);
+
+    console.log(JSON.stringify(sum,null,2));
     //return result; //JavaScript object
-    console.log(JSON.stringify(result)); //JSON
+    //console.log(JSON.stringify(result,null,2)); //JSON
+
